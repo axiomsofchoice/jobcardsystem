@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<!--
+Cambridge Makespace COVID-19 Visor Traceability Job Card System
+===============================================================
+
+    Copyright (C) 2020  Dan Hagon
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.    
+-->
+<html>
+  <head>
+    <base target="_top">
+    <style>
+    .lotnumber {
+       font-size: xxx-large;
+    }
+    
+    .consumed_lot {
+       font-size: large;
+    }
+    
+    .homepagelink {
+      margin-top: 100px;
+    }
+    
+    .wait_message {
+      font-weight: bold;
+      color: red;
+    }
+    
+    .warn {
+      font-weight: bold;
+      color: red;
+    }
+    
+    :focus {
+      background-color: yellow;
+      border: 5px solid #900;
+    }
+    </style>
+    <? let workerNamesRequiredAll = getListOfWorkerNames(true, false); ?>
+    <? let workerNamesNotRequiredAll = getListOfWorkerNames(false, false); ?>
+    <? let workerNamesRequiredSignedIn = getListOfWorkerNames(true, true); ?>
+    <? let workerNamesNotRequiredSignedIn = getListOfWorkerNames(false, true); ?>
+    <? let goodsInLotNumbers = getListOfGoodsInLotNumbers(); ?>
+  </head>
+  <body>
+    <img src="https://web.makespace.org/wp-content/uploads/2019/03/makespace2.png"/>
+  
+    <h1>Job Card System</h1>
+
+    <? if (taskToDisplay == "homepage") { ?>
+      <h2>List of Job Cards:</h2>
+      
+      <div>
+      <form action="<?= getScriptUrl() ?>" method="get">
+      <input type="hidden" name="workstation" value="WorkerRegistration">
+      <button type="submit">Worker Registration</button>
+      </form>
+      </div>
+
+      <div>
+      <form action="<?= getScriptUrl() ?>" method="get">
+      <input type="hidden" name="workstation" value="WorkerSignIn">
+      <button type="submit">Worker Sign In</button>
+      </form>
+      </div>
+
+      <div>
+      <form action="<?= getScriptUrl() ?>" method="get">
+      <input type="hidden" name="workstation" value="WorkerSignOut">
+      <button type="submit">Worker Sign Out</button>
+      </form>
+      </div>
+
+      <div>
+      <form action="<?= getScriptUrl() ?>" method="get">
+      <input type="hidden" name="workstation" value="GoodsInReceived">
+      <button type="submit">Goods In (Received)</button>
+      </form>
+      </div>
+
+      <div>
+      <form action="<?= getScriptUrl() ?>" method="get">
+      <input type="hidden" name="workstation" value="GoodsIn">
+      <button type="submit">Goods In (Internal Job Card)</button>
+      </form>
+      </div>
+
+      <div>
+      <form action="<?= getScriptUrl() ?>" method="get">
+      <input type="hidden" name="workstation" value="CutElastic">
+      <button type="submit">Cut Elastic</button>
+      </form>
+      </div>
+
+      <div>
+      <form action="<?= getScriptUrl() ?>" method="get">
+      <input type="hidden" name="workstation" value="CutFoam">
+      <button type="submit">Cut Foam</button>
+      </form>
+      </div>
+
+      <div>
+      <form action="<?= getScriptUrl() ?>" method="get">
+      <input type="hidden" name="workstation" value="LaserCutShield">
+      <!-- FIXME: Drop down -->
+      <button type="submit">Laser Cut Shield</button>
+      </form>
+      </div>
+
+      <div>
+      <form action="<?= getScriptUrl() ?>" method="get">
+      <input type="hidden" name="workstation" value="StickFoamToShield">
+      <button type="submit">Stick Foam To Shield</button>
+      </form>
+      </div>
+
+      <div>
+      <form action="<?= getScriptUrl() ?>" method="get">
+      <input type="hidden" name="workstation" value="StapleElasticToShield">
+      <button type="submit">Staple Elastic To Assembled Shield</button>
+      </form>
+      </div>
+
+      <div>
+      <form action="<?= getScriptUrl() ?>" method="get">
+      <input type="hidden" name="workstation" value="QualityControlPass">
+      <button type="submit">Quality Control Pass</button>
+      </form>
+      </div>
+
+      <div>
+      <form action="<?= getScriptUrl() ?>" method="get">
+      <input type="hidden" name="workstation" value="QualityControlFail">
+      <button type="submit">Quality Control Fail</button>
+      </form>
+      </div>
+
+      <div>
+      <form action="<?= getScriptUrl() ?>" method="get">
+      <input type="hidden" name="workstation" value="Boxing">
+      <button type="submit">Boxing</button>
+      </form>
+      </div>
+
+      <div>
+      <form action="<?= getScriptUrl() ?>" method="get">
+      <input type="hidden" name="workstation" value="GoodsOut">
+      <button type="submit">Goods Out</button>
+      </form>
+      </div>
+      
+      <div>
+      <form action="<?= getScriptUrl() ?>" method="get">
+      <input type="hidden" name="workstation" value="RetireJobCard">
+      <button type="submit">Retire Job Card</button>
+      </form>
+      </div>
+      
+    <? } else { if (taskToDisplay == "jobCard") { ?>
+      <? if (workstationToDisplay == "WorkerRegistration" || workstationToDisplay == "WorkerSignIn" || workstationToDisplay == "WorkerSignOut") { ?>
+
+      <h2><?= workstationToDisplay ?> Form</h2>
+
+      <? if (workstationToDisplay == "WorkerRegistration") { ?>
+      
+      <div>
+      <form action="<?= getScriptUrl() ?>" method="get">
+      <input type="hidden" name="workstation" value="<?= workstationToDisplay ?>">
+      
+      <div>
+      <label for="name">Worker Name:</label>
+      <input type="text" name="name">
+      </div>
+      
+      <div>
+      <label for="makespace_member">Makespace member?:</label>
+      <input type="checkbox" name="makespace_member">
+      
+      <label for="makespace_member_number">Makespace member number (if known):</label>
+      <input type="text" name="makespace_member_number">
+      </div>      
+      
+      <div>
+      <label for="mobile">Mobile:</label>
+      <input type="text" name="mobile">
+      </div>      
+      
+      <div>
+      <label for="email">Email:</label>
+      <input type="text" name="email">
+      </div>      
+      
+      <div>
+      <button type="submit" class="single_submit">Register</button>
+      </div>
+      </form>
+      </div>
+
+      <? } else { if (workstationToDisplay == "WorkerSignIn") { ?>
+      <div>
+      <form action="<?= getScriptUrl() ?>" method="get">
+      <input type="hidden" name="workstation" value="<?= workstationToDisplay ?>">
+      
+      <div>
+      <label for="worker_name">Worker name:</label>
+      <select name="worker_name" id="worker_name">
+      <? for (var i = 0; i < workerNamesRequiredAll.length; i++) { ?>
+      <option value="<?= workerNamesRequiredAll[i] ?>"><?= workerNamesRequiredAll[i] ?></option>
+      <? } ?>
+      </select>
+      </div>
+      
+      <div>
+      <label for="symptoms">Has had symptoms?:</label>
+      <input type="checkbox" name="symptoms">
+      </div>      
+      
+      <div>
+      <label for="contact_with_carriers">Contact with symptomatic person?:</label>
+      <input type="checkbox" name="contact_with_carriers">
+      </div>      
+
+      <div>
+      <label for="in_same_household">In same household as other worker?:</label>
+      <input type="checkbox" name="in_same_household">
+      <label for="in_same_household_detail">Who (choose one):</label>
+      <select name="in_same_household_detail" id="in_same_household_detail">
+      <? for (var i = 0; i < workerNamesNotRequiredAll.length; i++) { ?>
+      <option value="<?= workerNamesNotRequiredAll[i] ?>"><?= workerNamesNotRequiredAll[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == workerNamesNotRequiredAll.length) { ?>
+      <span class="warn">Warning: empty list; make sure someone is registered!</span>
+      <? } ?>
+      </div>      
+
+      <div>
+      <button type="submit" class="single_submit">Sign In</button>
+      </div>
+      </form>
+      </div>
+
+      <? } else { if (workstationToDisplay == "WorkerSignOut") { ?>
+      <div>
+      <form action="<?= getScriptUrl() ?>" method="get">
+      <input type="hidden" name="workstation" value="<?= workstationToDisplay ?>">
+      
+      <div>
+      <label for="worker_name">Worker name:</label>
+      <select name="worker_name" id="worker_name">
+      <? for (var i = 0; i < workerNamesRequiredSignedIn.length; i++) { ?>
+      <option value="<?= workerNamesRequiredSignedIn[i] ?>"><?= workerNamesRequiredSignedIn[i] ?></option>
+      <? } ?>
+      </select> 
+      <? if (0 == workerNamesRequiredSignedIn.length) { ?>
+      <span class="warn">Warning: empty list; make sure someone is signed in!</span>
+      <? } ?>
+      </div>
+      
+      <div>
+      <button type="submit" class="single_submit">Sign Out</button>
+      </div>
+      </form>
+      </div>
+      <? } } } ?>
+
+      <? } else { if (workstationToDisplay == "GoodsInReceived") { ?>
+      
+      <h2>Goods In Received </h2>
+      
+      <div>
+      <form action="<?= getScriptUrl() ?>" method="get">
+      <input type="hidden" name="workstation" value="<?= workstationToDisplay ?>">
+      
+      <div>
+      <label for="name">Primary Worker Name (Person receiving):</label>
+      <select name="name" id="name">
+      <? for (var i = 0; i < workerNamesRequiredSignedIn.length; i++) { ?>
+      <option value="<?= workerNamesRequiredSignedIn[i] ?>"><?= workerNamesRequiredSignedIn[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == workerNamesRequiredSignedIn.length) { ?>
+      <span class="warn">Warning: empty list; make sure someone is signed in!</span>
+      <? } ?>
+      </div>
+      
+      <div>
+      <label for="carrier">Carrier (e.g. UPS, DHL):</label>
+      <input type="text" name="carrier">
+      </div>
+
+      <div>
+      <label for="material">Material (including size, quantity, ...), normally as described on invoice/packing slip:</label>
+      <input type="text" name="material">
+      </div>
+
+      <div>
+      <label for="material_type">Material type (ask admin if more types are required):</label>
+      <select name="material_type" id="material_type">
+      <!-- TODO: Allow these to be read from the spreadsheet Goods In (?) sheet. -->
+      <option value="FOAM">Foam sheets (with adhensive backing)</option>
+      <option value="ELASTIC">Spool of elastic (1 inch wide, latex-free)</option>
+      <option value="BOX">Carboard shipping box</option>
+      <option value="SHIPPINGBAGS">Plastic bags for individually packing masks</option>
+      <option value="PET02">0.2mm PET sheet</option>
+      <option value="PET05">0.5mm PET sheet</option>
+      <option value="PET07">0.7mm PET sheet</option>
+      </select>
+      </div>
+
+      <div>
+      <label for="supplier">Supplier:</label>
+      <input type="text" name="supplier">
+      </div>
+
+      <div>
+      <label for="order_number">Order number (from invoice):</label>
+      <input type="text" name="order_number">
+      </div>
+
+      <div>
+      <label for="storage_area">Storage area:</label>
+      <input type="text" name="storage_area">
+      </div>
+
+      <div>
+      <label for="checked_by">Contents Checked by:</label>
+      <select name="checked_by" id="checked_by">
+      <? for (var i = 0; i < workerNamesRequiredSignedIn.length; i++) { ?>
+      <option value="<?= workerNamesRequiredSignedIn[i] ?>"><?= workerNamesRequiredSignedIn[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == workerNamesRequiredSignedIn.length) { ?>
+      <span class="warn">Warning: empty list; make sure someone is signed in!</span>
+      <? } ?>
+      </div>
+
+      <div>
+      <label for="notes">Notes (e.g. did it arrive in more than one box?):</label>
+      <input type="text" name="notes">
+      </div>
+
+      <div>
+      <button type="submit" class="single_submit">Book Item Into The System</button>
+      </div>
+      </form>
+      </div>      
+
+      <? } else { ?>
+
+      <h2><?= workstationToDisplay ?> Job Card</h2>
+
+      <div>
+      <form action="<?= getScriptUrl() ?>" method="get">
+      <input type="hidden" name="workstation" value="<?= workstationToDisplay ?>">
+      
+      <div>
+      <label for="name">Primary Worker Name:</label>
+      <select name="name" id="name">
+      <? for (var i = 0; i < workerNamesRequiredSignedIn.length; i++) { ?>
+      <option value="<?= workerNamesRequiredSignedIn[i] ?>" <?= workerNamesRequiredSignedIn[i] == prefilledValues["prefill_name"] ? "selected" : "" ?>><?= workerNamesRequiredSignedIn[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == workerNamesRequiredSignedIn.length) { ?>
+      <span class="warn">Warning: empty list; make sure someone is signed in!</span>
+      <? } ?>
+      </div>
+
+
+      <? if (workstationToDisplay != "RetireJobCard") { ?>
+      <div>
+      <label for="additional_worker_1">Additional Worker Name 1:</label>
+      <select name="additional_worker_1" id="additional_worker_1">
+      <? for (var i = 0; i < workerNamesNotRequiredSignedIn.length; i++) { ?>
+      <option value="<?= workerNamesNotRequiredSignedIn[i] ?>"><?= workerNamesNotRequiredSignedIn[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == workerNamesRequiredSignedIn.length) { ?>
+      <span class="warn">Warning: empty list; make sure someone is signed in!</span>
+      <? } ?>
+      </div>
+
+      <div>
+      <label for="additional_worker_2">Additional Worker Name 2:</label>
+      <select name="additional_worker_2" id="additional_worker_2">
+      <? for (var i = 0; i < workerNamesNotRequiredSignedIn.length; i++) { ?>
+      <option value="<?= workerNamesNotRequiredSignedIn[i] ?>"><?= workerNamesNotRequiredSignedIn[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == workerNamesRequiredSignedIn.length) { ?>
+      <span class="warn">Warning: empty list; make sure someone is signed in!</span>
+      <? } ?>
+      </div>
+      <? } ?>
+
+      <? if (workstationToDisplay == "GoodsIn") { ?>
+      <div>
+      <label for="lot_number_1">Goods In Lot Number Consumed:</label>
+      <select name="lot_number_1" id="lot_number_1">
+      <? for (var i = 0; i < goodsInLotNumbers.length; i++) { ?>
+      <option value="<?= goodsInLotNumbers[i] ?>" <?= goodsInLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= goodsInLotNumbers[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == goodsInLotNumbers.length) { ?>
+      <span class="warn">Warning: empty list; make sure there are still raw materials in goods in!</span>
+      <? } ?>
+      </div>
+      <? } ?>
+      
+      <? if (workstationToDisplay == "CutElastic") { ?>
+      <div>
+      <label for="lot_number_1">Consumed Elastic Lot Number:</label>
+      <select name="lot_number_1" id="lot_number_1">
+      <? let goodsInProcessedElasticLotNumbers = getGoodsInProcessedLotNumbers("CutElastic"); ?>
+      <? for (var i = 0; i < goodsInProcessedElasticLotNumbers.length; i++) { ?>
+      <option value="<?= goodsInProcessedElasticLotNumbers[i] ?>" <?= goodsInProcessedElasticLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= goodsInProcessedElasticLotNumbers[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == goodsInProcessedElasticLotNumbers.length) { ?>
+      <span class="warn">Warning: empty list; make sure there are still raw materials in goods in!</span>
+      <? } ?>
+      </div>
+      <? } ?>
+
+      <? if (workstationToDisplay == "CutFoam") { ?>
+      <div>
+      <label for="lot_number_1">Consumed Foam Lot Number:</label>
+      <select name="lot_number_1" id="lot_number_1">
+      <? let goodsInProcessedFoamLotNumbers = getGoodsInProcessedLotNumbers("CutFoam"); ?>
+      <? for (var i = 0; i < goodsInProcessedFoamLotNumbers.length; i++) { ?>
+      <option value="<?= goodsInProcessedFoamLotNumbers[i] ?>" <?= goodsInProcessedFoamLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= goodsInProcessedFoamLotNumbers[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == goodsInProcessedFoamLotNumbers.length) { ?>
+      <span class="warn">Warning: empty list; make sure there are still raw materials in goods in!</span>
+      <? } ?>
+      </div>
+      <? } ?>
+
+      <? if (workstationToDisplay == "LaserCutShield") { ?>
+      <div>
+      <label for="lot_number_1">Consumed PET Lot Number:</label>
+      <select name="lot_number_1" id="lot_number_1">
+      <? let goodsInProcessedPetLotNumbers = getGoodsInProcessedLotNumbers("LaserCutShield"); ?>
+      <? for (var i = 0; i < goodsInProcessedPetLotNumbers.length; i++) { ?>
+      <option value="<?= goodsInProcessedPetLotNumbers[i] ?>" <?= goodsInProcessedPetLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= goodsInProcessedPetLotNumbers[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == goodsInProcessedPetLotNumbers.length) { ?>
+      <span class="warn">Warning: empty list; make sure there are still raw materials in goods in!</span>
+      <? } ?>
+      </div>
+      <? } ?>
+
+      <? if (workstationToDisplay == "StickFoamToShield") { ?>
+      <div>
+      <label for="lot_number_1">Consumed Laser Cut Shield Lot Number:</label>
+      <select name="lot_number_1" id="lot_number_1">
+      <? let cutShieldLotNumbers = getUpstreamLot1Numbers("LaserCutShield"); ?>
+      <? for (var i = 0; i < cutShieldLotNumbers.length; i++) { ?>
+      <option value="<?= cutShieldLotNumbers[i] ?>"  <?= cutShieldLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= cutShieldLotNumbers[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == cutShieldLotNumbers.length) { ?>
+      <span class="warn">Warning: empty list; make sure there are still cut shields available!</span>
+      <? } ?>
+      </div>
+
+      <div>
+      <label for="lot_number_1b">Consumed Spare Laser Cut Shield Lot Number:</label>
+      <select name="lot_number_1b" id="lot_number_1b">
+      <? let spareCutShieldLotNumbers = [null].concat(getUpstreamLot1Numbers("LaserCutShield")); ?>
+      <? for (var i = 0; i < spareCutShieldLotNumbers.length; i++) { ?>
+      <option value="<?= spareCutShieldLotNumbers[i] ?>"  <?= spareCutShieldLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= spareCutShieldLotNumbers[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == cutShieldLotNumbers.length) { ?>
+      <span class="warn">Warning: empty list; make sure there are still cut shields available!</span>
+      <? } ?>
+      </div>
+
+      <div>
+      <label for="lot_number_2">Consumed Cut Foam Lot Number:</label>
+      <select name="lot_number_2" id="lot_number_2">
+      <? let cutFoamLotNumbers = getUpstreamLot1Numbers("CutFoam"); ?>
+      <? for (var i = 0; i < cutFoamLotNumbers.length; i++) { ?>
+      <option value="<?= cutFoamLotNumbers[i] ?>"  <?= cutFoamLotNumbers[i] == prefilledValues["prefill_lot_number_2"] ? "selected" : "" ?>><?= cutFoamLotNumbers[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == cutFoamLotNumbers.length) { ?>
+      <span class="warn">Warning: empty list; make sure there are still cut foam lots available!</span>
+      <? } ?>
+      </div>
+      
+      <div>
+      <label for="lot_number_2b">Consumed Spare Cut Foam Lot Number:</label>
+      <select name="lot_number_2b" id="lot_number_2b">
+      <? let spareCutFoamLotNumbers = [null].concat(getUpstreamLot1Numbers("CutFoam")); ?>
+      <? for (var i = 0; i < spareCutFoamLotNumbers.length; i++) { ?>
+      <option value="<?= spareCutFoamLotNumbers[i] ?>"  <?= spareCutFoamLotNumbers[i] == prefilledValues["prefill_lot_number_2"] ? "selected" : "" ?>><?= spareCutFoamLotNumbers[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == cutFoamLotNumbers.length) { ?>
+      <span class="warn">Warning: empty list; make sure there are still cut foam lots available!</span>
+      <? } ?>
+      </div>
+      <? } ?>
+
+      <? if (workstationToDisplay == "StapleElasticToShield") { ?>
+      <div>
+      <label for="lot_number_1">Consumed Laser Cut Shield + Foam Lot Number:</label>
+      <select name="lot_number_1" id="lot_number_1">
+      <? let cutShieldLotNumbers = getUpstreamLot1Numbers("StickFoamToShield"); ?>
+      <? for (var i = 0; i < cutShieldLotNumbers.length; i++) { ?>
+      <option value="<?= cutShieldLotNumbers[i] ?>"  <?= cutShieldLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= cutShieldLotNumbers[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == cutShieldLotNumbers.length) { ?>
+      <span class="warn">Warning: empty list; make sure there are still foam+shields lots available!</span>
+      <? } ?>
+      </div>
+
+      <div>
+      <label for="lot_number_1b">Consumed Spare Laser Cut Shield + Foam Lot Number:</label>
+      <select name="lot_number_1b" id="lot_number_1b">
+      <? let spareCutShieldLotNumbers = [null].concat(getUpstreamLot1Numbers("StickFoamToShield")); ?>
+      <? for (var i = 0; i < spareCutShieldLotNumbers.length; i++) { ?>
+      <option value="<?= spareCutShieldLotNumbers[i] ?>"  <?= spareCutShieldLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= spareCutShieldLotNumbers[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == cutShieldLotNumbers.length) { ?>
+      <span class="warn">Warning: empty list; make sure there are still foam+shields lots available!</span>
+      <? } ?>
+      </div>
+
+      <div>
+      <label for="lot_number_2">Consumed Cut Elastic Lot Number:</label>
+      <select name="lot_number_2" id="lot_number_2">
+      <? let coutElasticLotNumbers = getUpstreamLot1Numbers("CutElastic"); ?>
+      <? for (var i = 0; i < coutElasticLotNumbers.length; i++) { ?>
+      <option value="<?= coutElasticLotNumbers[i] ?>"  <?= coutElasticLotNumbers[i] == prefilledValues["prefill_lot_number_2"] ? "selected" : "" ?>><?= coutElasticLotNumbers[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == coutElasticLotNumbers.length) { ?>
+      <span class="warn">Warning: empty list; make sure there are still cut elastic lots available!</span>
+      <? } ?>
+      </div>
+      
+      <div>
+      <label for="lot_number_2b">Consumed spare Cut Elastic Lot Number:</label>
+      <select name="lot_number_2b" id="lot_number_2b">
+      <? let spareCutElasticLotNumbers = [null].concat(getUpstreamLot1Numbers("CutElastic")); ?>
+      <? for (var i = 0; i < spareCutElasticLotNumbers.length; i++) { ?>
+      <option value="<?= spareCutElasticLotNumbers[i] ?>"  <?= spareCutElasticLotNumbers[i] == prefilledValues["prefill_lot_number_2"] ? "selected" : "" ?>><?= spareCutElasticLotNumbers[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == coutElasticLotNumbers.length) { ?>
+      <span class="warn">Warning: empty list; make sure there are still cut elastic lots available!</span>
+      <? } ?>
+      </div>
+      <? } ?>
+
+      <? if (workstationToDisplay == "QualityControlPass") { ?>
+      <div>
+      <label for="lot_number_1">Lot Number Where Passed Completed Masks Came From:</label>
+      <select name="lot_number_1" id="lot_number_1">
+      <? let completedFaceMaskLotNumbers = getUpstreamLot1Numbers("StapleElasticToShield"); ?>
+      <? for (var i = 0; i < completedFaceMaskLotNumbers.length; i++) { ?>
+      <option value="<?= completedFaceMaskLotNumbers[i] ?>"  <?= completedFaceMaskLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= completedFaceMaskLotNumbers[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == completedFaceMaskLotNumbers.length) { ?>
+      <span class="warn">Warning: empty list; make sure there are still completed face mask lots available!</span>
+      <? } ?>
+      </div>
+
+      <div>
+      <label for="lot_number_1b">Lot Number of spares box for Completed Masks Came:</label>
+      <select name="lot_number_1b" id="lot_number_1b">
+      <!-- Note these come from QC since they must be minimally handled at the QC stage. -->
+      <? let spareCompletedFaceMaskLotNumbers = [null].concat(getUpstreamLot1Numbers("QualityControlPass")); ?>
+      <? for (var i = 0; i < spareCompletedFaceMaskLotNumbers.length; i++) { ?>
+      <option value="<?= spareCompletedFaceMaskLotNumbers[i] ?>"  <?= spareCompletedFaceMaskLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= spareCompletedFaceMaskLotNumbers[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == spareCompletedFaceMaskLotNumbers.length) { ?>
+      <span class="warn">Warning: empty list; make sure there are still QC'd face mask lots available!</span>
+      <? } ?>
+      </div>
+
+      <div>
+      <label for="lot_number_2"><strong>Unassembled Cardboard</strong> Box (without contents) Lot Number:</label>
+      <select name="lot_number_2" id="lot_number_2">
+      <? let goodsInProcessedBoxLotNumbers = getGoodsInProcessedLotNumbers("QualityControlPassBoxes"); ?>
+      <? for (var i = 0; i < goodsInProcessedBoxLotNumbers.length; i++) { ?>
+      <option value="<?= goodsInProcessedBoxLotNumbers[i] ?>"  <?= goodsInProcessedBoxLotNumbers[i] == prefilledValues["prefill_lot_number_2"] ? "selected" : "" ?>><?= goodsInProcessedBoxLotNumbers[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == goodsInProcessedBoxLotNumbers.length) { ?>
+      <span class="warn">Warning: empty list; make sure there are still boxes available in goods in!</span>
+      <? } ?>
+      </div>
+
+      <div>
+      <label for="lot_number_3">Plastic Bag Lot Number:</label>
+      <select name="lot_number_3" id="lot_number_3">
+      <? let goodsInProcessedBagLotNumbers = getGoodsInProcessedLotNumbers("QualityControlPassBags"); ?>
+      <? for (var i = 0; i < goodsInProcessedBagLotNumbers.length; i++) { ?>
+      <option value="<?= goodsInProcessedBagLotNumbers[i] ?>" <?= goodsInProcessedBagLotNumbers[i] == prefilledValues["prefill_lot_number_3"] ? "selected" : "" ?>><?= goodsInProcessedBagLotNumbers[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == goodsInProcessedBagLotNumbers.length) { ?>
+      <span class="warn">Warning: empty list; make sure there are still bags available in goods in!</span>
+      <? } ?>
+      </div>
+      <? } ?>
+
+      <? if (workstationToDisplay == "QualityControlFail") { ?>
+      <div>
+      <label for="lot_number_1">Lot Number Where Failed Completed Masks Came From:</label>
+      <select name="lot_number_1" id="lot_number_1">
+      <? let completedMaskLotNumbers = getUpstreamLot1Numbers('StapleElasticToShield'); ?>
+      <? for (var i = 0; i < completedMaskLotNumbers.length; i++) { ?>
+      <option value="<?= completedMaskLotNumbers[i] ?>" <?= completedMaskLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= completedMaskLotNumbers[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == completedMaskLotNumbers.length) { ?>
+      <span class="warn">Warning: empty list; make sure there are still completed face mask lots available!</span>
+      <? } ?>
+      </div>
+      <? } ?>
+
+      <? if (workstationToDisplay == "Boxing") { ?>
+      <div>
+      <label for="lot_number_1">Lot Number Where <strong>QC Passed</strong> Masks Came From:</label>
+      <select name="lot_number_1" id="lot_number_1">
+      <? let qcPassedMaskLotNumbers = getUpstreamLot1Numbers('QualityControlPass'); ?>
+      <? for (var i = 0; i < qcPassedMaskLotNumbers.length; i++) { ?>
+      <option value="<?= qcPassedMaskLotNumbers[i] ?>" <?= qcPassedMaskLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= qcPassedMaskLotNumbers[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == qcPassedMaskLotNumbers.length) { ?>
+      <span class="warn">Warning: empty list; make sure there are still QC'd face mask lots available!</span>
+      <? } ?>
+      </div>
+      
+      <div>
+      <label for="completed_box_number"><strong>Sticker number</strong> (MS number) affixed to sealed Cardboard Box (ready for goods out) :</label>
+      <input type="text" name="completed_box_number">
+      </div>
+      <? } ?>
+
+      <? if (workstationToDisplay == "GoodsOut") { ?>
+      <div>
+      <label for="lot_number_1"><strong>Sealed Box *Lot*</strong> Number (*not* "MS" box number):</label>
+      <select name="lot_number_1" id="lot_number_1">
+      <? let finishedBoxLotNumbers = getUpstreamLot1Numbers('Boxing'); ?>
+      <? for (var i = 0; i < finishedBoxLotNumbers.length; i++) { ?>
+      <option value="<?= finishedBoxLotNumbers[i] ?>" <?= finishedBoxLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= finishedBoxLotNumbers[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == finishedBoxLotNumbers.length) { ?>
+      <span class="warn">Warning: empty list; make sure there are still boxed+sealed face mask lots available!</span>
+      <? } ?>
+      </div>
+      <? } ?>
+
+      <? if (workstationToDisplay == "RetireJobCard") { ?>
+      <div>
+      <label for="lot_number_1">Job Card Number To Be Retired:</label>
+      <select name="lot_number_1" id="lot_number_1">
+      <? let lotNumbersToBeRetired = getUnretiredLotNumbers(); ?>
+      <? for (var i = 0; i < lotNumbersToBeRetired.length; i++) { ?>
+      <option value="<?= lotNumbersToBeRetired[i] ?>" <?= lotNumbersToBeRetired[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= lotNumbersToBeRetired[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == lotNumbersToBeRetired.length) { ?>
+      <span class="warn">Warning: empty list; make sure there are some WIP lots available!</span>
+      <? } ?>
+      </div>
+      <? } ?>
+
+      <div>
+      <label for="comment">Comment:</label>
+      <input type="text" name="comment">
+      </div>      
+
+      <div>
+      <? if (workstationToDisplay == "RetireJobCard") { ?>
+      <button type="submit" class="single_submit">Retire Job Card</button>
+      <? } else { ?>
+      <button type="submit" class="single_submit">Generate Job Card</button>
+      <? } ?>
+      </div>
+      </form>
+      </div>
+      
+      <? } } ?>
+
+    <? } else { if (taskToDisplay == "completedJobCard") { ?>
+      
+      <h2>Completed Job Details:</h2>
+      
+      <div>
+      <div>Primary worker: <?= completedJobCardDetails["name"] ?></div>
+      <div>Job Card type: <?= completedJobCardDetails["workstation"] ?></div>
+      <div>Current comment: <?= completedJobCardDetails["comment"] ?></div>
+      <div>Consumed lot 1: <?= completedJobCardDetails["lot_number_1"] ?></div>
+      <div>Consumed lot 1 (spare): <?= completedJobCardDetails["lot_number_1b"] ?></div>
+      <div>Consumed lot 2: <?= completedJobCardDetails["lot_number_2"] ?></div>
+      <div>Consumed lot 2 (spare): <?= completedJobCardDetails["lot_number_2b"] ?></div>
+      <div>Consumed lot 3: <?= completedJobCardDetails["lot_number_3"] ?></div>
+      <div>Completed box number: <?= completedJobCardDetails["completed_box_number"] ?></div>      
+      </div>
+      
+      <div>Completed Job Card Number: <span class="lotnumber"><strong><?= completedJobCardLotNumber ?></strong></span></div>
+      
+      <div>
+      <form action="<?= getScriptUrl() ?>" method="get">
+      <input type="hidden" name="task" value="completedJobCard">
+      <input type="hidden" name="workstation" value="<?= workstationToDisplay ?>">
+      <input type="hidden" name="lot_number" value="<?= completedJobCardLotNumber ?>">
+
+      <input type="hidden" name="prefill_name" value="<?= completedJobCardDetails["name"] ?>">
+      <input type="hidden" name="prefill_lot_number_1" value="<?= completedJobCardDetails["lot_number_1"] ?>">
+      <input type="hidden" name="prefill_lot_number_2" value="<?= completedJobCardDetails["lot_number_2"] ?>">
+      <input type="hidden" name="prefill_lot_number_3" value="<?= completedJobCardDetails["lot_number_3"] ?>">
+
+      <div>
+      <label for="additional_worker_1">Additional Worker Name 1:</label>
+      <select name="additional_worker_1" id="additional_worker_1">
+      <? for (var i = 0; i < workerNamesNotRequiredSignedIn.length; i++) { ?>
+      <option value="<?= workerNamesNotRequiredSignedIn[i] ?>" <?= workerNamesNotRequiredSignedIn[i] == completedJobCardDetails["additional_worker_1"] ? "selected" : "" ?>><?= workerNamesNotRequiredSignedIn[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == workerNamesNotRequiredSignedIn.length) { ?>
+      <span class="warn">Warning: empty list; make sure someone is signed in!</span>
+      <? } ?>
+      </div>
+
+      <div>
+      <label for="additional_worker_2">Additional Worker Name 2:</label>
+      <select name="additional_worker_2" id="additional_worker_2">
+      <? for (var i = 0; i < workerNamesNotRequiredSignedIn.length; i++) { ?>
+      <option value="<?= workerNamesNotRequiredSignedIn[i] ?>" <?= workerNamesNotRequiredSignedIn[i] == completedJobCardDetails["additional_worker_2"] ? "selected" : "" ?>><?= workerNamesNotRequiredSignedIn[i] ?></option>
+      <? } ?>
+      </select>
+      <? if (0 == workerNamesNotRequiredSignedIn.length) { ?>
+      <span class="warn">Warning: empty list; make sure someone is signed in!</span>
+      <? } ?>
+      </div>
+
+      <div>
+      <label for="completed"><strong>Completed?:</strong>:</label>
+      <input type="checkbox" name="completed">
+      </div>      
+
+      <div>
+      <label for="comment">Add a comment to this job card:</label>
+      <input type="text" name="comment">
+      </div>      
+
+      <div>
+      <button type="submit" class="single_submit">Update Job Card</button>
+      </div>
+      </form>
+      </div>
+      
+    <? } else { if (taskToDisplay == "lotNumberAlreadyConsumed") { ?>
+    
+      <h2>Error: Lot number already consumed!</h2>
+
+      <div>
+      <form action="<?= getScriptUrl() ?>" method="get">
+      <input type="hidden" name="workstation" value="<?= workstationToDisplay ?>">
+      <button type="submit">Go Back To Job Card</button>
+      </form>
+      </div>
+
+    <? } else { if (taskToDisplay == "autoRetireLotCard") { ?>
+    
+      <h2>Retire these lot cards?</h2>
+
+      <div>Your <strong>new</strong> lot number: <span class="lotnumber"><strong><?= completedJobCardLotNumber ?></strong></span></div>
+
+      <div>You specified the following as being consumed. Please check the corresponding box (only) if they are <strong>completely</strong> consumed.</div>
+      
+      <div>Note: typically lots corresponding to raw materials are not completely consumed when a new job starts. You can retire these cards later on using the menu item on the home page.</div>
+      
+      <div>
+      <form action="<?= getScriptUrl() ?>" method="get">
+      <input type="hidden" name="task" value="autoRetireLotCard">
+      <input type="hidden" name="workstation" value="<?= workstationToDisplay ?>">
+      <input type="hidden" name="lot_number" value="<?= completedJobCardLotNumber ?>">
+
+      <input type="hidden" name="name" value="<?= completedJobCardDetails["name"] ?>">
+      <input type="hidden" name="lot_number_1" value="<?= completedJobCardDetails["lot_number_1"] ?>">
+      <input type="hidden" name="lot_number_1" value="<?= completedJobCardDetails["lot_number_1b"] ?>">
+      <input type="hidden" name="lot_number_2" value="<?= completedJobCardDetails["lot_number_2"] ?>">
+      <input type="hidden" name="lot_number_2" value="<?= completedJobCardDetails["lot_number_2b"] ?>">
+      <input type="hidden" name="lot_number_3" value="<?= completedJobCardDetails["lot_number_3"] ?>">
+      <input type="hidden" name="comment" value="<?= completedJobCardDetails["comment"] ?>">
+      <input type="hidden" name="completed_box_number" value="<?= completedJobCardDetails["completed_box_number"] ?>">
+      <input type="hidden" name="additional_worker_1" value="<?= completedJobCardDetails["additional_worker_1"] ?>">
+      <input type="hidden" name="additional_worker_2" value="<?= completedJobCardDetails["additional_worker_2"] ?>">
+      
+      <input type="hidden" name="prefill_name" value="<?= completedJobCardDetails["name"] ?>">
+      <input type="hidden" name="prefill_lot_number_1" value="<?= completedJobCardDetails["lot_number_1"] ?>">
+      <input type="hidden" name="prefill_lot_number_2" value="<?= completedJobCardDetails["lot_number_2"] ?>">
+      <input type="hidden" name="prefill_lot_number_3" value="<?= completedJobCardDetails["lot_number_3"] ?>">
+
+      <? if ( null != completedJobCardDetails["lot_number_1"] && "" != completedJobCardDetails["lot_number_1"] ) { ?>
+      <div>
+      <label for="retire_lot_number_1" class="consumed_lot">Consumed lot 1: <strong><?= completedJobCardDetails["lot_number_1"] ?></strong></label>
+      <input type="checkbox" name="retire_lot_number_1">
+      </div>
+      <? } ?>
+      
+      <? if ( null != completedJobCardDetails["lot_number_1b"] && "" != completedJobCardDetails["lot_number_1b"] ) { ?>
+      <div>
+      <label for="retire_lot_number_1b" class="consumed_lot">Consumed lot 1b : <strong><?= completedJobCardDetails["lot_number_1b"] ?></strong></label>
+      <input type="checkbox" name="retire_lot_number_1b">
+      </div>
+      <? } ?>
+      
+      <? if ( null != completedJobCardDetails["lot_number_2"] && "" != completedJobCardDetails["lot_number_2"] ) { ?>
+      <div>
+      <label for="retire_lot_number_2" class="consumed_lot">Consumed lot 2: <strong><?= completedJobCardDetails["lot_number_2"] ?></strong></label>
+      <input type="checkbox" name="retire_lot_number_2">
+      </div>
+      <? } ?>
+      
+      <? if ( null != completedJobCardDetails["lot_number_2b"] && "" != completedJobCardDetails["lot_number_2b"] ) { ?>
+      <div>
+      <label for="retire_lot_number_2b" class="consumed_lot">Consumed lot 2b : <strong><?= completedJobCardDetails["lot_number_2b"] ?></strong></label>
+      <input type="checkbox" name="retire_lot_number_2b">
+      </div>
+      <? } ?>
+      
+      <? if ( null != completedJobCardDetails["lot_number_3"] && "" != completedJobCardDetails["lot_number_3"] ) { ?>
+      <div>
+      <label for="retire_lot_number_3" class="consumed_lot">Consumed lot 3: <strong><?= completedJobCardDetails["lot_number_3"] ?></strong></label>
+      <input type="checkbox" name="retire_lot_number_3">
+      </div>
+      <? } ?>
+
+      <div>
+      <button type="submit"  class="single_submit">Retire Just The Checked Job Cards Above</button>
+      </div>
+      
+      </form>
+      </div>
+
+    <? } else { if (taskToDisplay == "reportBoxes") { ?>
+
+    <? let boxingJobCards = reportAllCompletedBoxes(); ?>  
+    <? for (var i = 0; i < boxingJobCards.length; i++) { ?>
+        <pre>
+        {"lot_no": <?= boxingJobCards[i]["lot_no"]; ?>,
+         "workstation": <?= boxingJobCards[i]; ?>,
+         "workers": [<?= boxingJobCards[i]["workers"]; ?>],
+         "started_time": <?= boxingJobCards[i]["started_time"]; ?>,
+         "completeion_time": <?= boxingJobCards[i]["completeion_time"]; ?>,
+         "box_number": <?= boxingJobCards[i]["box_number"]; ?>,
+         "lots_consumed": <?= boxingJobCards[i]["lots_consumed"]; ?>}
+         </pre >
+    <? } ?>
+        
+    <div>Number of lots: <?= boxingJobCards.length ?></div>
+
+    <? } else { if (taskToDisplay == "completedJobCard") { ?>
+    
+      <h2>Unknown action</h2>
+      
+    <? } } } } } } } ?>
+
+      <div class="homepagelink"><a href="<?= getScriptUrl() ?>">Homepage</a></div>
+
+  </body>
+  <script language="javascript">
+    /**
+     * This prevents double submission which can be an issue with slow page loads.
+     */
+    function disablSubmitButton(event) {
+        document.querySelectorAll("button.single_submit").forEach((submitButton) => {submitButton.disabled = true});
+        // Show the wait message.
+        document.querySelectorAll("div.wait_message").forEach((div) => {div.hidden = false});
+        // Allow a timeout.
+        window.setTimeout(function () {
+            document.querySelectorAll("button.single_submit").forEach((submitButton) => {submitButton.disabled = false;})
+            document.querySelectorAll("div.wait_message").forEach((div) => {div.hidden = true});
+        }, 15000)
+    }
+    
+    window.onload = (event) => {
+        document.querySelectorAll("button.single_submit").forEach((submitButton) => {
+          let newDiv = document.createElement("div");
+          newDiv.setAttribute("class", "wait_message");
+          newDiv.setAttribute("hidden", "true");
+          newDiv.appendChild(document.createTextNode("Please wait...")); 
+          submitButton.insertAdjacentElement('afterend', newDiv);
+        });
+
+        document.querySelectorAll("button.single_submit").forEach((submitButton) => {submitButton.closest("form").addEventListener('submit', disablSubmitButton)});
+    };    
+  </script>
+</html>
