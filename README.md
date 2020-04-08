@@ -31,7 +31,7 @@ The original system evolved from a simplified [Google Forms](https://www.google.
 # Installation
 
 The code and example spreadsheet can be found in `google_apps_script_web_app`. First create a blank sheet in
-[Google Sheets](https://docs.google.com/spreadsheets/u/0/) and click the title to give is a meaningful name. The select
+[Google Sheets](https://docs.google.com/spreadsheets/u/0/) and click the title to give it a meaningful name. The select
 `File > Import` and upload the example spreadsheet `Sign in out + Goods In Out + Job Cards.xlsx` either as a new
 spreadsheet or to replace the current one. `Sign in out + Goods In Out + Job Cards.xlsx` provides the schema for the
 system and will hold all the data generated. (In subsequent implementations this would be a database but for fast
@@ -68,7 +68,7 @@ limitations of using Google Apps Scripts which future implementations of the job
 
 Eventually you'll get to a dialog that has `Current web app URL` and in the box is the URL of the deployed web app
 (which ends in `/exec/`) which is the one you should be running on the Chromebooks. The development version (which ends
-in `/exec/`) can be found in the hyperlink just below this.
+in `/dev/`) can be found in the hyperlink just below this.
 
 # Guidance for admins
 
