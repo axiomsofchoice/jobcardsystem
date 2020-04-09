@@ -793,9 +793,9 @@ Cambridge Makespace COVID-19 Visor Traceability Job Card System
 
     <? } else { if (taskToDisplay == "autoRetireLotCard") { ?>
     
-      <h2>Retire these lot cards?</h2>
+      <h2>Before you can go on to complete the current job card you should retire any lot cards you've used. Do you wish to retire these lot cards?</h2>
 
-      <div>Your <strong>new</strong> lot number: <span class="lotnumber"><strong><?= completedJobCardLotNumber ?></strong></span></div>
+      <!-- <div>Your <strong>new</strong> lot number: <span class="lotnumber"><strong><?= completedJobCardLotNumber ?></strong></span></div> -->
 
       <div>You specified the following as being consumed. Please check the corresponding box (only) if they are <strong>completely</strong> consumed.</div>
       
@@ -859,7 +859,7 @@ Cambridge Makespace COVID-19 Visor Traceability Job Card System
       <? } ?>
 
       <div>
-      <button type="submit"  class="single_submit">Retire Just The Checked Job Cards Above</button>
+      <button type="submit"  class="single_submit">Retire Just The Checked Job Cards Above (And Proceed To The Completion Stage)</button>
       </div>
       
       </form>
