@@ -205,8 +205,9 @@ def do_network_graph(lots_in_system, outfile):
                       "StapleElasticToShield": 'darkseagreen4',
                       "StickFoamToShield": 'aquamarine',
                       "QualityControlPass": 'aquamarine1',
-                      "Boxing": 'aquamarine2',
-                      "GoodsOut": 'aquamarine3'
+                      "QualityControlFail": 'aquamarine2',
+                      "Boxing": 'aquamarine3',
+                      "GoodsOut": 'aquamarine4'
     }
 
     # Format nodes for output.
