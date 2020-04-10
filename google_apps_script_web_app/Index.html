@@ -430,6 +430,8 @@ Cambridge Makespace COVID-19 Visor Traceability Job Card System
       <option value="<?= goodsInProcessedElasticLotNumbers[i] ?>" <?= goodsInProcessedElasticLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= goodsInProcessedElasticLotNumbers[i] ?></option>
       <? } ?>
       </select>
+      <label for="retire_lot_number_1" class="consumed_lot"><strong>Retire?:</strong></label>
+      <input type="checkbox" name="retire_lot_number_1">
       <? if (0 == goodsInProcessedElasticLotNumbers.length) { ?>
       <span class="warn">Warning: empty list; make sure there are still raw materials in goods in!</span>
       <? } ?>
@@ -445,6 +447,8 @@ Cambridge Makespace COVID-19 Visor Traceability Job Card System
       <option value="<?= goodsInProcessedFoamLotNumbers[i] ?>" <?= goodsInProcessedFoamLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= goodsInProcessedFoamLotNumbers[i] ?></option>
       <? } ?>
       </select>
+      <label for="retire_lot_number_1" class="consumed_lot"><strong>Retire?:</strong></label>
+      <input type="checkbox" name="retire_lot_number_1">
       <? if (0 == goodsInProcessedFoamLotNumbers.length) { ?>
       <span class="warn">Warning: empty list; make sure there are still raw materials in goods in!</span>
       <? } ?>
@@ -460,6 +464,8 @@ Cambridge Makespace COVID-19 Visor Traceability Job Card System
       <option value="<?= goodsInProcessedPetLotNumbers[i] ?>" <?= goodsInProcessedPetLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= goodsInProcessedPetLotNumbers[i] ?></option>
       <? } ?>
       </select>
+      <label for="retire_lot_number_1" class="consumed_lot"><strong>Retire?:</strong></label>
+      <input type="checkbox" name="retire_lot_number_1">
       <? if (0 == goodsInProcessedPetLotNumbers.length) { ?>
       <span class="warn">Warning: empty list; make sure there are still raw materials in goods in!</span>
       <? } ?>
@@ -475,6 +481,8 @@ Cambridge Makespace COVID-19 Visor Traceability Job Card System
       <option value="<?= cutShieldLotNumbers[i] ?>"  <?= cutShieldLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= cutShieldLotNumbers[i] ?></option>
       <? } ?>
       </select>
+      <label for="retire_lot_number_1" class="consumed_lot"><strong>Retire?:</strong></label>
+      <input type="checkbox" name="retire_lot_number_1">
       <? if (0 == cutShieldLotNumbers.length) { ?>
       <span class="warn">Warning: empty list; make sure there are still cut shields available!</span>
       <? } ?>
@@ -488,6 +496,8 @@ Cambridge Makespace COVID-19 Visor Traceability Job Card System
       <option value="<?= spareCutShieldLotNumbers[i] ?>"  <?= spareCutShieldLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= spareCutShieldLotNumbers[i] ?></option>
       <? } ?>
       </select>
+      <label for="retire_lot_number_1b" class="consumed_lot"><strong>Retire?:</strong></label>
+      <input type="checkbox" name="retire_lot_number_1b">
       <? if (0 == cutShieldLotNumbers.length) { ?>
       <span class="warn">Warning: empty list; make sure there are still cut shields available!</span>
       <? } ?>
@@ -501,6 +511,8 @@ Cambridge Makespace COVID-19 Visor Traceability Job Card System
       <option value="<?= cutFoamLotNumbers[i] ?>"  <?= cutFoamLotNumbers[i] == prefilledValues["prefill_lot_number_2"] ? "selected" : "" ?>><?= cutFoamLotNumbers[i] ?></option>
       <? } ?>
       </select>
+      <label for="retire_lot_number_2" class="consumed_lot"><strong>Retire?:</strong></label>
+      <input type="checkbox" name="retire_lot_number_2">
       <? if (0 == cutFoamLotNumbers.length) { ?>
       <span class="warn">Warning: empty list; make sure there are still cut foam lots available!</span>
       <? } ?>
@@ -514,6 +526,8 @@ Cambridge Makespace COVID-19 Visor Traceability Job Card System
       <option value="<?= spareCutFoamLotNumbers[i] ?>"  <?= spareCutFoamLotNumbers[i] == prefilledValues["prefill_lot_number_2"] ? "selected" : "" ?>><?= spareCutFoamLotNumbers[i] ?></option>
       <? } ?>
       </select>
+      <label for="retire_lot_number_2b" class="consumed_lot"><strong>Retire?:</strong></label>
+      <input type="checkbox" name="retire_lot_number_2b">
       <? if (0 == cutFoamLotNumbers.length) { ?>
       <span class="warn">Warning: empty list; make sure there are still cut foam lots available!</span>
       <? } ?>
@@ -529,6 +543,8 @@ Cambridge Makespace COVID-19 Visor Traceability Job Card System
       <option value="<?= cutShieldLotNumbers[i] ?>"  <?= cutShieldLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= cutShieldLotNumbers[i] ?></option>
       <? } ?>
       </select>
+      <label for="retire_lot_number_1" class="consumed_lot"><strong>Retire?:</strong></label>
+      <input type="checkbox" name="retire_lot_number_1">
       <? if (0 == cutShieldLotNumbers.length) { ?>
       <span class="warn">Warning: empty list; make sure there are still foam+shields lots available!</span>
       <? } ?>
@@ -542,6 +558,8 @@ Cambridge Makespace COVID-19 Visor Traceability Job Card System
       <option value="<?= spareCutShieldLotNumbers[i] ?>"  <?= spareCutShieldLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= spareCutShieldLotNumbers[i] ?></option>
       <? } ?>
       </select>
+      <label for="retire_lot_number_1b" class="consumed_lot"><strong>Retire?:</strong></label>
+      <input type="checkbox" name="retire_lot_number_1b">
       <? if (0 == cutShieldLotNumbers.length) { ?>
       <span class="warn">Warning: empty list; make sure there are still foam+shields lots available!</span>
       <? } ?>
@@ -555,6 +573,8 @@ Cambridge Makespace COVID-19 Visor Traceability Job Card System
       <option value="<?= coutElasticLotNumbers[i] ?>"  <?= coutElasticLotNumbers[i] == prefilledValues["prefill_lot_number_2"] ? "selected" : "" ?>><?= coutElasticLotNumbers[i] ?></option>
       <? } ?>
       </select>
+      <label for="retire_lot_number_2" class="consumed_lot"><strong>Retire?:</strong></label>
+      <input type="checkbox" name="retire_lot_number_2">
       <? if (0 == coutElasticLotNumbers.length) { ?>
       <span class="warn">Warning: empty list; make sure there are still cut elastic lots available!</span>
       <? } ?>
@@ -568,6 +588,8 @@ Cambridge Makespace COVID-19 Visor Traceability Job Card System
       <option value="<?= spareCutElasticLotNumbers[i] ?>"  <?= spareCutElasticLotNumbers[i] == prefilledValues["prefill_lot_number_2"] ? "selected" : "" ?>><?= spareCutElasticLotNumbers[i] ?></option>
       <? } ?>
       </select>
+      <label for="retire_lot_number_2b" class="consumed_lot"><strong>Retire?:</strong></label>
+      <input type="checkbox" name="retire_lot_number_2b">
       <? if (0 == coutElasticLotNumbers.length) { ?>
       <span class="warn">Warning: empty list; make sure there are still cut elastic lots available!</span>
       <? } ?>
@@ -583,6 +605,8 @@ Cambridge Makespace COVID-19 Visor Traceability Job Card System
       <option value="<?= completedFaceMaskLotNumbers[i] ?>"  <?= completedFaceMaskLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= completedFaceMaskLotNumbers[i] ?></option>
       <? } ?>
       </select>
+      <label for="retire_lot_number_1" class="consumed_lot"><strong>Retire?:</strong></label>
+      <input type="checkbox" name="retire_lot_number_1">
       <? if (0 == completedFaceMaskLotNumbers.length) { ?>
       <span class="warn">Warning: empty list; make sure there are still completed face mask lots available!</span>
       <? } ?>
@@ -597,6 +621,8 @@ Cambridge Makespace COVID-19 Visor Traceability Job Card System
       <option value="<?= spareCompletedFaceMaskLotNumbers[i] ?>"  <?= spareCompletedFaceMaskLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= spareCompletedFaceMaskLotNumbers[i] ?></option>
       <? } ?>
       </select>
+      <label for="retire_lot_number_1b" class="consumed_lot"><strong>Retire?:</strong></label>
+      <input type="checkbox" name="retire_lot_number_1b">
       <? if (0 == spareCompletedFaceMaskLotNumbers.length) { ?>
       <span class="warn">Warning: empty list; make sure there are still QC'd face mask lots available!</span>
       <? } ?>
@@ -610,6 +636,8 @@ Cambridge Makespace COVID-19 Visor Traceability Job Card System
       <option value="<?= goodsInProcessedBoxLotNumbers[i] ?>"  <?= goodsInProcessedBoxLotNumbers[i] == prefilledValues["prefill_lot_number_2"] ? "selected" : "" ?>><?= goodsInProcessedBoxLotNumbers[i] ?></option>
       <? } ?>
       </select>
+      <label for="retire_lot_number_2" class="consumed_lot"><strong>Retire?:</strong></label>
+      <input type="checkbox" name="retire_lot_number_2">
       <? if (0 == goodsInProcessedBoxLotNumbers.length) { ?>
       <span class="warn">Warning: empty list; make sure there are still boxes available in goods in!</span>
       <? } ?>
@@ -623,6 +651,8 @@ Cambridge Makespace COVID-19 Visor Traceability Job Card System
       <option value="<?= goodsInProcessedBagLotNumbers[i] ?>" <?= goodsInProcessedBagLotNumbers[i] == prefilledValues["prefill_lot_number_3"] ? "selected" : "" ?>><?= goodsInProcessedBagLotNumbers[i] ?></option>
       <? } ?>
       </select>
+      <label for="retire_lot_number_3" class="consumed_lot"><strong>Retire?:</strong></label>
+      <input type="checkbox" name="retire_lot_number_3">
       <? if (0 == goodsInProcessedBagLotNumbers.length) { ?>
       <span class="warn">Warning: empty list; make sure there are still bags available in goods in!</span>
       <? } ?>
@@ -638,6 +668,8 @@ Cambridge Makespace COVID-19 Visor Traceability Job Card System
       <option value="<?= completedMaskLotNumbers[i] ?>" <?= completedMaskLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= completedMaskLotNumbers[i] ?></option>
       <? } ?>
       </select>
+      <label for="retire_lot_number_1" class="consumed_lot"><strong>Retire?:</strong></label>
+      <input type="checkbox" name="retire_lot_number_1">
       <? if (0 == completedMaskLotNumbers.length) { ?>
       <span class="warn">Warning: empty list; make sure there are still completed face mask lots available!</span>
       <? } ?>
@@ -653,6 +685,8 @@ Cambridge Makespace COVID-19 Visor Traceability Job Card System
       <option value="<?= qcPassedMaskLotNumbers[i] ?>" <?= qcPassedMaskLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= qcPassedMaskLotNumbers[i] ?></option>
       <? } ?>
       </select>
+      <label for="retire_lot_number_1" class="consumed_lot"><strong>Retire?:</strong></label>
+      <input type="checkbox" name="retire_lot_number_1">
       <? if (0 == qcPassedMaskLotNumbers.length) { ?>
       <span class="warn">Warning: empty list; make sure there are still QC'd face mask lots available!</span>
       <? } ?>
@@ -673,6 +707,8 @@ Cambridge Makespace COVID-19 Visor Traceability Job Card System
       <option value="<?= finishedBoxLotNumbers[i] ?>" <?= finishedBoxLotNumbers[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= finishedBoxLotNumbers[i] ?></option>
       <? } ?>
       </select>
+      <label for="retire_lot_number_1" class="consumed_lot"><strong>Retire?:</strong></label>
+      <input type="checkbox" name="retire_lot_number_1">
       <? if (0 == finishedBoxLotNumbers.length) { ?>
       <span class="warn">Warning: empty list; make sure there are still boxed+sealed face mask lots available!</span>
       <? } ?>
@@ -688,6 +724,8 @@ Cambridge Makespace COVID-19 Visor Traceability Job Card System
       <option value="<?= lotNumbersToBeRetired[i] ?>" <?= lotNumbersToBeRetired[i] == prefilledValues["prefill_lot_number_1"] ? "selected" : "" ?>><?= lotNumbersToBeRetired[i] ?></option>
       <? } ?>
       </select>
+      <label for="retire_lot_number_1" class="consumed_lot"><strong>Retire?:</strong></label>
+      <input type="checkbox" name="retire_lot_number_1">
       <? if (0 == lotNumbersToBeRetired.length) { ?>
       <span class="warn">Warning: empty list; make sure there are some WIP lots available!</span>
       <? } ?>

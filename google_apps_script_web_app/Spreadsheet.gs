@@ -203,6 +203,15 @@ function appendCompletedJobCard(e) {
     
     jobLogSheet.appendRow([lot_number, workstationName, worker, completion_time, lot_number_consumed, sealedBoxNumber, comment, additional_worker_1, additional_worker_2]);
     
+    // Check check to see if we need to retire any job cards. TODO: perhaps best to find a way to avoid having to use "prefill" values here.
+    if (null == e['prefill_name']) { e['prefill_name'] = e['name']; }
+    if (null == e["prefill_lot_number_1"]) { e["prefill_lot_number_1"] = e["lot_number_1"]; }
+    if (null == e["prefill_lot_number_1b"]) { e["prefill_lot_number_1b"] = e["lot_number_1b"]; }
+    if (null == e["prefill_lot_number_2"]) { e["prefill_lot_number_2"] = e["lot_number_2"]; }
+    if (null == e["prefill_lot_number_2b"]) { e["prefill_lot_number_2b"] = e["lot_number_2b"]; }
+    if (null == e["prefill_lot_number_3"]) { e["prefill_lot_number_3"] = e["lot_number_3"]; }
+    retireMultipleJobs(e);
+    
     return lot_number;
   });
 }
@@ -278,7 +287,7 @@ function retireMultipleJobs(e) {
    ["retire_lot_number_2b", "prefill_lot_number_2b"],
    ["retire_lot_number_3", "prefill_lot_number_3"]].forEach(lot_number_key => {
                                                           
-     if (null != e[lot_number_key[0]]) {
+     if ((null != e[lot_number_key[0]]) && (null != e[lot_number_key[1]]) && ("" != e[lot_number_key[1]][0])) {
        let retired_by = e['prefill_name'][0];
        let lot_number = e[lot_number_key[1]][0];
        let comment = "Auto-retire";

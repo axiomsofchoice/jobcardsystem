@@ -158,32 +158,12 @@ function doGet(e) {
       completedJobCardDetails = e["parameters"];
       workstationToDisplay = e['parameters']['workstation'];
       
-      // For Goods In there is nothing consumed so no need to ask user what needs retiring.
-      if (workstationToDisplay != "GoodsIn") {
-        taskToDisplay = "autoRetireLotCard";
-      } else {
-        taskToDisplay = "completedJobCard";
-      }
+      taskToDisplay = "completedJobCard";
     }
     
     return HtmlService.createTemplateFromFile('Index').evaluate();  
   }
   
-  if (checkIsRetireMultipleJobCardPage(e)) {
-    
-    console.log("IsRetireMultipleJobCardPage");
-
-    retireMultipleJobs(e['parameters'])
-    
-    completedJobCardDetails = e["parameters"];          
-    completedJobCardLotNumber = e["parameters"]["lot_number"];
-    
-    taskToDisplay = "completedJobCard";
-    workstationToDisplay = e['parameters']['workstation'];
-    
-    return HtmlService.createTemplateFromFile('Index').evaluate();  
-  }
-
   if (checkIsJobCardReceiptPage(e)) {
     
     updateJobCardDetails(e["parameters"]);
